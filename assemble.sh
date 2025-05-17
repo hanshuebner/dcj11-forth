@@ -10,3 +10,7 @@ fi
 docker run -it --rm \
     -v "$(pwd):/app/data" \
     rt11-assembler ./build.sh
+
+echo
+echo FIG FORTH standalone binary built:
+ls -l forth.bin

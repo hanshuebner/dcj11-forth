@@ -1,21 +1,53 @@
-# PDP-11 Binary File Uploader
+# PDP-11 FORTH Development Environment
 
-This tool uploads binary files to a PDP-11 through a serial port while the ODT monitor is running. It handles the communication protocol and ensures proper byte ordering for the PDP-11 architecture.
+This repository contains tools for developing and running FORTH on a PDP-11 DCJ11 Single Board Computer. It includes:
+
+1. A Docker-based RT-11 environment for assembling FORTH.MAC using the MACRO-11 assembler
+2. A binary file uploader for transferring the assembled program to the DCJ11 SBC via serial port
+
+## Quick Start
+
+1. Build the FORTH binary:
+```bash
+./assemble.sh
+```
+This will create `forth.bin` using RT-11 running in SIMH inside a Docker container.
+
+2. Upload the binary to your DCJ11 SBC:
+```bash
+python odt-uploader.py /dev/tty.usbserial-110 forth.bin 1000
+```
+Note: Adjust the serial port device as needed for your system.
 
 ## Requirements
 
+- Docker for running the RT-11 assembly environment
 - Python 3.6 or higher
 - pyserial library for serial port access
 - tqdm library for progress reporting
 
 ## Installation
 
-1. Install the required dependencies (you may want to use a [virtual environment](https://docs.python.org/3/library/venv.html)):
+1. Install the required Python dependencies:
 ```bash
 pip install -r requirements.txt
 ```
 
-## Usage
+2. Ensure Docker is installed and running on your system.
+
+## Assembly Process
+
+The `assemble.sh` script:
+- Builds a Docker container with RT-11 and SIMH
+- Mounts the local directory containing FORTH.MAC
+- Runs the MACRO-11 assembler to create forth.bin
+- Exits the container, leaving forth.bin in your local directory
+
+## Binary Uploader
+
+The `odt-uploader.py` script uploads binary files to a PDP-11 through a serial port while the ODT monitor is running. It handles the communication protocol and ensures proper byte ordering for the PDP-11 architecture.
+
+### Usage
 
 ```bash
 python odt-uploader.py <serial_port> <binary_file> <start_address> [-v]
@@ -27,14 +59,7 @@ Where:
 - `<start_address>` is the octal start address where the file should be loaded
 - `-v` or `--verbose` enables detailed logging of serial communication
 
-Example:
-```bash
-python odt-uploader.py /dev/ttyUSB0 program.bin 1000 -v
-```
-
-This will upload `program.bin` starting at address 1000 (octal) with verbose logging enabled.
-
-## Features
+### Features
 
 - Configures serial port for 38400 bps, 8N1
 - Handles PDP-11 little-endian byte ordering
@@ -44,7 +69,7 @@ This will upload `program.bin` starting at address 1000 (octal) with verbose log
 - Ensures even number of bytes by padding if necessary
 - Optional verbose logging of all serial communication
 
-## Verbose Logging
+### Verbose Logging
 
 When the `-v` flag is used, the tool will log:
 - All bytes sent and received in hex and ASCII format
@@ -68,7 +93,7 @@ Example verbose output:
 ...
 ```
 
-## Error Handling
+### Error Handling
 
 The tool will:
 - Verify character echo from ODT
