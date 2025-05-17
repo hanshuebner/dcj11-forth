@@ -10,9 +10,11 @@ set -e
 PDPFS="pdpfs -i exchange.img"
 
 $PDPFS mkfs rx02 rt11
-$PDPFS cp ./FORTH.MAC FORTH.MAC
-$PDPFS cp ./FORTH.COM FORTH.COM
-python assemble.py
-$PDPFS cp FORTH.LST ./FORTH.LST
+$PDPFS cp data/FORTH.MAC FORTH.MAC
+$PDPFS cp data/FORTH.COM FORTH.COM
+python3 assemble.py
+$PDPFS cp FORTH.LST data/FORTH.LST
 $PDPFS cp FORTH.LDA ./FORTH.LDA
 rm exchange.img*
+./lda2bin < FORTH.LDA > data/forth.bin
+rm -f FORTH.LDA
