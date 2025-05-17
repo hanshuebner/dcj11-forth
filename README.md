@@ -5,20 +5,6 @@ This repository contains tools for developing and running FORTH on a PDP-11 DCJ1
 1. A Docker-based RT-11 environment for assembling FORTH.MAC using the MACRO-11 assembler
 2. A binary file uploader for transferring the assembled program to the DCJ11 SBC via serial port
 
-## Quick Start
-
-1. Build the FORTH binary:
-```bash
-./assemble.sh
-```
-This will create `forth.bin` using RT-11 running in SIMH inside a Docker container.
-
-2. Upload the binary to your DCJ11 SBC:
-```bash
-python odt-uploader.py /dev/tty.usbserial-110 forth.bin 1000
-```
-Note: Adjust the serial port device as needed for your system.
-
 ## Requirements
 
 - Docker for running the RT-11 assembly environment
@@ -35,7 +21,29 @@ pip install -r requirements.txt
 
 2. Ensure Docker is installed and running on your system.
 
-## Assembly Process
+## Quick Start
+
+1. Build the FORTH binary:
+```bash
+./assemble.sh
+```
+This will create `forth.bin` using RT-11 running in SIMH inside a Docker container.
+
+2. Upload the binary to your DCJ11 SBC:
+```bash
+python odt-uploader.py /dev/tty.usbserial-110 forth.bin 1000
+```
+Note: Adjust the serial port device as needed for your system.
+
+## Useful Links
+
+- [Starting FORTH](https://www.forth.com/starting-forth/)
+- [Systems Guide to FIG FORTH](https://www.forth.org/OffeteStore/1010_SystemsGuideToFigForth.pdf)
+- [RT-11 V4.0 User's Guide](https://bitsavers.org/pdf/dec/pdp11/rt11/v4.0_Mar80/2a/AA-5279B-TC_RT-11_V4.0_System_Users_Guide_Mar80.pdf)
+- [PDP-11 MACRO-11 Reference Manual](https://bitsavers.org/pdf/dec/pdp11/rt11/v4.0_Mar80/3a/AA-5075B-TC_PDP-11_MACRO-11_Language_Reference_Manual_Jan80.pdf)
+- [J-11 Programmer's Reference](http://www.bitsavers.org/pdf/dec/pdp11/j11/J-11_Programmers_Reference_Jan82.pdf)
+
+## The Assembly Process
 
 The `assemble.sh` script:
 - Builds a Docker container with RT-11 and SIMH
