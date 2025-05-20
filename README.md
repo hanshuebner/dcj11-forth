@@ -41,6 +41,7 @@ Note: Adjust the serial port device as needed for your system.
  - [RT-11 V4.0 User's Guide](https://bitsavers.org/pdf/dec/pdp11/rt11/v4.0_Mar80/2a/AA-5279B-TC_RT-11_V4.0_System_Users_Guide_Mar80.pdf)
  - [PDP-11 MACRO-11 Reference Manual](https://bitsavers.org/pdf/dec/pdp11/rt11/v4.0_Mar80/3a/AA-5075B-TC_PDP-11_MACRO-11_Language_Reference_Manual_Jan80.pdf)
  - [J-11 Programmer's Reference](http://www.bitsavers.org/pdf/dec/pdp11/j11/J-11_Programmers_Reference_Jan82.pdf)
+ - [DCJ11 Microprocessor User's Guide](http://www.bitsavers.org/pdf/dec/pdp11/1173/EK-DCJ11-UG-PRE_J11ug_Oct83.pdf)
 
 ## The Assembly Process
 
