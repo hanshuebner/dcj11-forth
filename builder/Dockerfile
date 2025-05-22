@@ -40,11 +40,11 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip3 install -r requirements.txt
 
-# Copy the rest of the application
-COPY . .
-
 # Compile lda2bin with C99 standard
 RUN gcc -std=c99 -o lda2bin lda2bin.c
 
+# Copy the rest of the application
+COPY . .
+
 # Set the default command
-CMD ["/bin/bash"] 
+CMD ["/bin/bash"]
