@@ -40,6 +40,8 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip3 install -r requirements.txt
 
+COPY lda2bin.c .
+
 # Compile lda2bin with C99 standard
 RUN gcc -std=c99 -o lda2bin lda2bin.c
 

@@ -2,6 +2,7 @@ import pexpect
 import time
 import re
 import sys
+from datetime import datetime
 
 # Start simh PDP-11 emulator
 child = pexpect.spawn('pdp11', encoding='utf-8', timeout=10)
@@ -55,13 +56,13 @@ child.expect("sim>")
 child.sendline("do pdp11.ini")
 
 # Function to wait for a dot prompt followed by ~300ms of inactivity
-def wait_for_dot_idle_prompt():
+def wait_for_dot_idle_prompt(timeout=0.3):
     buffer = ""
     dot_seen = False
     last_output_time = time.time()
     while True:
         try:
-            chunk = child.read_nonblocking(size=1, timeout=0.3)
+            chunk = child.read_nonblocking(size=1, timeout=timeout)
             buffer += chunk
             if chunk == '.':
                 dot_seen = True
@@ -78,14 +79,26 @@ def wait_for_dot_idle_prompt():
             print("Simulator exited unexpectedly")
             return False
 
-# --- First prompt ---
+# --- Wait for first RT11 prompt
+wait_for_dot_idle_prompt()
+
+# --- Set Date & Time ---
+# Note that we can't use the actual year, so we're staying in the 1990ies.  This does not work for
+# leap years, so take the date with a grain of salt.
+
+now = datetime.now()
+last_digit = now.year % 10
+fake_year = 1990 + last_digit
+adjusted_date = datetime(fake_year, now.month, now.day)
+
+child.sendline("DATE " + adjusted_date.strftime("%d-%b-%y").upper())
+wait_for_dot_idle_prompt()
+child.sendline("TIME " + now.strftime("%H:%M:%S"))
 wait_for_dot_idle_prompt()
 
 # --- Assemble forth
 child.sendline("@DY:FORTH.COM")
-
-# --- Wait for second prompt ---
-wait_for_dot_idle_prompt()
+wait_for_dot_idle_prompt(timeout=3)
 
 # --- Send Ctrl-E (to exit the simulation) ---
 child.send('\x05')  # Ctrl-E
